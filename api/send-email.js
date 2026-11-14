@@ -101,8 +101,9 @@ export default async function handler(req, res) {
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    // Email 1 — notify Prince Arvee
-    await resend.emails.send({
+    // Email 1 — notify Prince Arvee. The SDK returns { error } instead of
+    // throwing, so check it: a revoked or wrong key must not report success.
+    const { error: notifyError } = await resend.emails.send({
       from: 'onboarding@resend.dev',
       to: 'princearveeavena@gmail.com',
       replyTo: safeEmail,
@@ -128,9 +129,11 @@ export default async function handler(req, res) {
         </div>
       `,
     });
+    if (notifyError) throw new Error(notifyError.message ?? 'Resend rejected the notification email');
 
-    // Email 2 — auto-reply to sender so they know it was received
-    await resend.emails.send({
+    // Email 2 — auto-reply to sender. Best effort: the message already reached
+    // the inbox, so a failure here is logged rather than shown to the visitor.
+    const { error: replyError } = await resend.emails.send({
       from: 'onboarding@resend.dev',
       to: safeEmail,
       subject: `Got your message, ${safeName}!`,
@@ -146,6 +149,7 @@ export default async function handler(req, res) {
         </div>
       `,
     });
+    if (replyError) console.error('Auto-reply failed:', replyError.message ?? replyError);
 
     return res.status(200).json({ success: true });
   } catch (err) {
