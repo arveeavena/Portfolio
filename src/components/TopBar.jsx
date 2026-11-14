@@ -70,13 +70,18 @@ export function TopBar({ theme, onToggle }) {
                     aria-controls="mobile-menu"
                     aria-label={open ? 'Close menu' : 'Open menu'}
                 >
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-                        {open ? <path d="M18 6 6 18M6 6l12 12" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
-                    </svg>
+                    <span className="burger" aria-hidden="true"><i /><i /></span>
                 </button>
             </div>
-            <nav id="mobile-menu" className="mobile-menu" aria-label="Sections" hidden={!open}>
-                {NAV.map(n => <a key={n.id} href={`#${n.id}`} onClick={() => setOpen(false)}>{n.label}</a>)}
+            {/* Always mounted so it can animate out; inert + aria-hidden while closed. */}
+            <div className="menu-scrim" onClick={() => setOpen(false)} aria-hidden="true" />
+            <nav id="mobile-menu" className="mobile-menu" aria-label="Sections" aria-hidden={!open} inert={!open}>
+                {NAV.map((n, i) => (
+                    <a key={n.id} href={`#${n.id}`} style={{ '--i': i }} onClick={() => setOpen(false)}>
+                        {n.label}
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+                    </a>
+                ))}
             </nav>
         </header>
     );

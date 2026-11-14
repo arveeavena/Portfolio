@@ -36,16 +36,63 @@
 .menu-btn {
   display: none; width: 36px; height: 36px; border-radius: 10px; place-items: center;
   border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer;
+  position: relative;
 }
+/* Two-line burger that morphs into an X (Apple-style). */
+.burger { position: relative; width: 16px; height: 10px; display: block; }
+.burger i {
+  position: absolute; left: 0; width: 16px; height: 1.6px; border-radius: 2px; background: currentColor;
+  transition: transform 0.45s var(--ease-apple), top 0.45s var(--ease-apple);
+}
+.burger i:first-child { top: 1px; }
+.burger i:last-child { top: 7.4px; }
+.menu-open .burger i:first-child { top: 4.2px; transform: rotate(45deg); }
+.menu-open .burger i:last-child { top: 4.2px; transform: rotate(-45deg); }
+
+/* Floating menu panel: positioned over the page (takes no layout space),
+   springs open from the menu button with scale + blur, links stagger in. */
+:root { --ease-apple: cubic-bezier(0.32, 0.72, 0, 1); }
 .mobile-menu {
-  display: none; max-width: 1104px; margin: 8px auto 0; padding: 6px; border-radius: 18px;
-  flex-direction: column;
+  display: none; position: absolute; top: calc(100% + 8px); right: 10px; left: auto;
+  width: min(300px, calc(100vw - 20px)); padding: 8px; border-radius: 22px;
+  flex-direction: column; transform-origin: top right;
+  opacity: 0; transform: scale(0.88) translateY(-6px); filter: blur(8px);
+  visibility: hidden; pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.5s var(--ease-apple), filter 0.3s ease, visibility 0s linear 0.5s;
+}
+.menu-open .mobile-menu {
+  opacity: 1; transform: none; filter: none; visibility: visible; pointer-events: auto;
+  transition: opacity 0.3s ease, transform 0.55s var(--ease-apple), filter 0.35s ease, visibility 0s;
 }
 .mobile-menu a {
-  padding: 13px 14px; border-radius: 12px; font-size: 15px; font-weight: 600;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 14px; border-radius: 14px; font-size: 16px; font-weight: 600; letter-spacing: -0.01em;
   color: var(--text); text-decoration: none;
+  opacity: 0; transform: translateY(-6px);
+  transition: opacity 0.2s ease, transform 0.35s var(--ease-apple), background 0.15s;
 }
-.mobile-menu a:active { background: var(--bg2); }
+.mobile-menu a svg { color: var(--muted2); }
+.menu-open .mobile-menu a {
+  opacity: 1; transform: none;
+  transition: opacity 0.35s ease calc(60ms + var(--i) * 40ms), transform 0.5s var(--ease-apple) calc(60ms + var(--i) * 40ms), background 0.15s;
+}
+.mobile-menu a:active { background: color-mix(in srgb, var(--text) 8%, transparent); }
+.mobile-menu a { position: relative; }
+.mobile-menu a + a::before {
+  content: ''; position: absolute; top: 0; left: 14px; right: 14px; height: 1px;
+  background: var(--glass-edge, var(--border));
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu, .menu-open .mobile-menu, .mobile-menu a, .menu-open .mobile-menu a, .burger i, .menu-scrim {
+    transition-duration: 0.01ms !important; transition-delay: 0s !important;
+  }
+  .mobile-menu { filter: none; transform: none; }
+}
+.menu-scrim {
+  display: none; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: rgba(9, 9, 11, 0.12); opacity: 0; transition: opacity 0.35s ease;
+}
+.menu-open .menu-scrim { opacity: 1; pointer-events: auto; }
 .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; }
 .brand-mark {
   width: 30px; height: 30px; border-radius: 50%; object-fit: cover; display: block;
@@ -286,7 +333,8 @@ a.wl-primary:hover { background: var(--btn-primary-bg); opacity: .88; }
   .topbar { padding: 12px 16px 0; }
   .topnav { display: none; }
   .menu-btn { display: grid; }
-  .menu-open .mobile-menu:not([hidden]) { display: flex; }
+  .mobile-menu { display: flex; }
+  .menu-scrim { display: block; }
   .top-social { margin-left: auto; }
   .hero { grid-template-columns: 1fr; gap: 44px; padding-top: 40px; }
   .featured, .featured:nth-child(even) { grid-template-columns: 1fr; gap: 24px; padding: 20px; }
