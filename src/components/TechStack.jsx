@@ -125,11 +125,14 @@ export function TechStack() {
     const visible = expanded ? STACK : STACK.slice(0, PREVIEW_COUNT);
 
     return (
-        <div className="section reveal" ref={ref}>
-            <div className="sec-head">
-                <h2 className="sec-title">Skills</h2>
+        <section id="stack" className="block reveal" ref={ref} aria-labelledby="stack-title">
+            <div className="block-head">
+                <div>
+                    <h2 id="stack-title" className="block-title">Skills &amp; stack</h2>
+                </div>
             </div>
 
+            <div className="stack-grid">
             {visible.map((group, gi) => {
                 const baseDelay = gi * 60;
                 return (
@@ -145,6 +148,7 @@ export function TechStack() {
                     </div>
                 );
             })}
+            </div>
 
             <button
                 className="btn view-all-btn"
@@ -168,6 +172,6 @@ export function TechStack() {
                     </>
                 )}
             </button>
-        </div>
+        </section>
     );
 }

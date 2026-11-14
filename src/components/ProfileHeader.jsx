@@ -1,92 +1,73 @@
-import { useReveal } from '../hooks/useReveal';
+import { Experience } from './Experience';
 
+const MailIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <rect x="3" y="5" width="18" height="14" rx="2" /><polyline points="3,5 12,13 21,5" />
+    </svg>
+);
+
+/* First section: who I am (left) and where I've worked (right). */
 export function ProfileHeader() {
-    const ref = useReveal();
-
-    const handleEmail = () => {
-        const s = encodeURIComponent('Hello Prince Arvee!');
-        const b = encodeURIComponent('Hi Prince Arvee,\n\n');
-        window.location.href = `mailto:princearveeavena@gmail.com?subject=${s}&body=${b}`;
-    };
-
     return (
-        <div className="profile-header reveal" ref={ref}>
-            <div className="profile-photo">
-                <img
-                    src="/picture-256.webp"
-                    srcSet="/picture-256.webp 256w, /picture-384.webp 384w"
-                    sizes="128px"
-                    width="128"
-                    height="128"
-                    fetchPriority="high"
-                    alt="Prince Arvee Avena"
-                    onError={e => { e.target.style.display = 'none'; }}
-                />
-                <div className="photo-placeholder">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-                        <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-                    </svg>
-                </div>
-            </div>
-
-            <div className="profile-info">
-                <h1 className="profile-name">Prince Arvee F. Avena</h1>
-                <div className="profile-tagline">Full-Stack Developer · Web · DevOps · AI</div>
-
-                <div className="profile-meta">
-                    <a className="meta-chip" href="mailto:princearveeavena@gmail.com">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                            <rect x="3" y="5" width="18" height="14" rx="2" />
-                            <polyline points="3,5 12,13 21,5" />
-                        </svg>
-                        princearveeavena@gmail.com
-                    </a>
-                    <span className="meta-chip">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                            <circle cx="12" cy="10" r="3" />
-                        </svg>
-                        Balayan, Batangas
-                    </span>
+        <section className="hero" id="top" aria-label="About Prince Arvee Avena">
+            <div className="hero-copy" id="about">
+                <div className="hero-id">
+                    <div className="profile-photo">
+                        <img
+                            src="/picture-256.webp"
+                            srcSet="/picture-256.webp 256w, /picture-384.webp 384w"
+                            sizes="72px"
+                            width="72"
+                            height="72"
+                            fetchPriority="high"
+                            alt="Prince Arvee Avena"
+                        />
+                    </div>
+                    <div>
+                        <h1 className="profile-name">Prince Arvee Avena</h1>
+                        <p className="hero-role">Full-Stack Developer · Balayan, Batangas, PH</p>
+                    </div>
                 </div>
 
-                <div className="degree-chip">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                        <path d="M22 10v6M2 10l10 5 10-5-10-5-10 5z" />
-                    </svg>
-                    <span className="degree-text">
-                        <span className="degree-main">
-                            BS Computer Science
-                            <span className="degree-honor">Magna Cum Laude</span>
-                        </span>
-                        <span className="degree-sub">
-                            Immaculate Conception College of Balayan, Inc. · April 2026
-                        </span>
-                    </span>
+                <div className="about-body">
+                    <p>
+                        I&rsquo;m <strong>Prince Arvee Avena</strong>, a Full-Stack Developer at ServiceCo
+                        specializing in web and mobile platforms built on one shared codebase. My work spans the
+                        whole stack: PostgreSQL schemas and APIs, React and React Native interfaces, AI features
+                        that answer from a company&rsquo;s own data, and automated deployments on AWS. With a
+                        strong background in TypeScript, Laravel and cloud infrastructure, I take products from
+                        the first database sketch all the way to production.
+                    </p>
+                    <p>
+                        Since 2024 I have designed and delivered systems for businesses, schools and local
+                        government offices across Batangas and Cavite, many of them running in production
+                        today. They cover point of sale, Philippine-compliant payroll, clinic management and public records, each
+                        built hand in hand with the people who run them every day. I graduated Magna Cum Laude
+                        in Computer Science.
+                    </p>
+                    <p>
+                        I build software that is reliable, secure and simple to use. Role-based access, audit
+                        trails, backups and CI pipelines are part of every system I ship, not an afterthought.
+                        I&rsquo;m committed to growing as an engineer and building technology that makes real
+                        work faster for the people who depend on it.
+                    </p>
                 </div>
 
                 <div className="action-row">
-                    <button onClick={handleEmail} className="btn btn-primary">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <rect x="3" y="5" width="18" height="14" rx="2" /><polyline points="3,5 12,13 21,5" />
-                        </svg>
-                        Send Email
-                    </button>
-                    <a href="tel:+639168927345" className="btn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.07 6.07l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z" />
-                        </svg>
-                        +63 916 892 7345
+                    <a href="mailto:princearveeavena@gmail.com?subject=Hello%20Prince%20Arvee!" className="btn btn-primary">
+                        <MailIcon /> Email me
                     </a>
                     <a href="/RESUME.pdf" download="PrinceArveeAvena_Resume.pdf" className="btn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                            <polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
                         </svg>
                         Download CV
                     </a>
+                    <a href="#work" className="btn">See projects</a>
                 </div>
             </div>
-        </div>
+
+            <Experience />
+        </section>
     );
 }
