@@ -148,12 +148,12 @@ select:focus-visible,
 }
 
 /* ── SCROLL REVEAL ── */
-.reveal {
+html.js .reveal {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 0.45s cubic-bezier(.22,1,.36,1), transform 0.45s cubic-bezier(.22,1,.36,1);
 }
-.reveal.visible {
+html.js .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }

@@ -1,11 +1,19 @@
 import { useEffect, useRef } from 'react';
 
-export function useReveal(options = {}) {
+// Fades a section in when it scrolls into view.
+// threshold must stay 0: a ratio like 0.12 is unreachable for sections taller
+// than ~8 screens (the stacked project grid on phones), which left them invisible.
+export function useReveal() {
     const ref = useRef(null);
 
     useEffect(() => {
         const el = ref.current;
         if (!el) return;
+
+        if (typeof IntersectionObserver === 'undefined') {
+            el.classList.add('visible');
+            return;
+        }
 
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -14,12 +22,11 @@ export function useReveal(options = {}) {
                     observer.disconnect();
                 }
             },
-            { threshold: 0.12, ...options }
+            { threshold: 0, rootMargin: '0px 0px -8% 0px' }
         );
 
-        // Small delay so initial page elements animate in
-        const timer = setTimeout(() => observer.observe(el), 80);
-        return () => { clearTimeout(timer); observer.disconnect(); };
+        observer.observe(el);
+        return () => observer.disconnect();
     }, []);
 
     return ref;
