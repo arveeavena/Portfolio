@@ -69,7 +69,7 @@ export function FooterGrid() {
                 </div>
 
             </div>
-            <div className="copyright">© 2026 Prince Arvee Avena (Arvee Avena) · Full-Stack Developer, Batangas, Philippines</div>
+            <div className="copyright">© 2026 Prince Arvee Avena | Full-Stack Developer, Batangas, Philippines</div>
         </footer>
     );
 }

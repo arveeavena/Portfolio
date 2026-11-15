@@ -20,7 +20,7 @@ const kind = label => {
 export function projectPage(p, all, SITE, services = []) {
   const url = `${SITE}/work/${p.slug}`;
   const title = `${p.name}: ${p.label} | Prince Arvee Avena`;
-  const desc = `${p.name} is ${aOrAn(kind(p.label))} ${kind(p.label)} built by Prince Arvee Avena (Arvee Avena), full-stack developer in the Philippines. ${p.desc}`;
+  const desc = `${p.name} is ${aOrAn(kind(p.label))} ${kind(p.label)} built by Prince Arvee Avena, full-stack developer in the Philippines. ${p.desc}`;
   const metaDesc = trimDesc(desc);
   const image = p.shots > 0 ? `${SITE}/shots/${p.slug}-1.webp` : `${SITE}/og-image.jpg`;
   const others = all.filter(o => o.slug !== p.slug).slice(0, 6);
@@ -31,7 +31,7 @@ export function projectPage(p, all, SITE, services = []) {
   const faq = [
     {
       q: `What is ${p.name}?`,
-      a: `${p.name} is ${aOrAn(kind(p.label))} ${kind(p.label)} built by Prince Arvee Avena (Arvee Avena), a full-stack developer in the Philippines. ${p.desc}`,
+      a: `${p.name} is ${aOrAn(kind(p.label))} ${kind(p.label)} built by Prince Arvee Avena, a full-stack developer in the Philippines. ${p.desc}`,
     },
     {
       q: `What is ${p.name} built with?`,
