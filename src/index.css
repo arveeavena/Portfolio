@@ -420,6 +420,40 @@ html.js .reveal.visible {
 .btn-primary:hover { opacity: 0.88; }
 .btn svg { width: 13px; height: 13px; flex-shrink: 0; }
 
+/* Poke button: shared counter + floating "+1" */
+.poke-btn { overflow: visible; user-select: none; }
+.poke-hand { display: inline-block; font-size: 13px; line-height: 1; transform-origin: 30% 60%; }
+.poke-btn:active .poke-hand { animation: poke-jab 0.25s ease-out; }
+.poke-count {
+  margin-left: 2px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 11.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.poke-burst {
+  position: absolute;
+  right: 10px;
+  top: -4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  pointer-events: none;
+  animation: poke-float 0.9s ease-out forwards;
+}
+@keyframes poke-jab { 50% { transform: translateX(4px) scale(1.15); } }
+@keyframes poke-float {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-22px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .poke-btn:active .poke-hand, .poke-burst { animation: none; }
+  .poke-burst { display: none; }
+}
+
 /* ── SECTIONS ── */
 .section { margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid var(--border); }
 .section:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }

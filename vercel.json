@@ -42,6 +42,14 @@
       ]
     }
   ],
+  "redirects": [
+    {
+      "source": "/:path((?!google6186f0b502d51cf0\\.html$).*)",
+      "has": [{ "type": "host", "value": "arveeavena.vercel.app" }],
+      "destination": "https://arveeavena.site/:path",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/landing",

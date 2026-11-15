@@ -7,7 +7,7 @@ import { resolve, dirname } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const SITE = 'https://arveeavena.vercel.app'
+const SITE = 'https://arveeavena.site'
 const ssrDir = resolve(root, 'dist-ssr')
 
 const { render, PROJECTS } = await import(pathToFileURL(resolve(ssrDir, 'entry-server.js')).href)

@@ -1,6 +1,8 @@
 import { Resend } from 'resend';
 
 const ALLOWED_ORIGINS = [
+  'https://arveeavena.site',
+  'https://www.arveeavena.site',
   'https://arveeavena.vercel.app',
   'http://localhost:5173',
   'http://localhost:4173',
@@ -125,7 +127,7 @@ export default async function handler(req, res) {
               <td style="padding:10px 0;font-size:14px;color:#18181b;line-height:1.7;">${safeMessage}</td>
             </tr>
           </table>
-          <p style="margin:24px 0 0;font-size:12px;color:#a1a1aa;">Sent via arveeavena.vercel.app · Hit reply to respond directly to ${safeName}.</p>
+          <p style="margin:24px 0 0;font-size:12px;color:#a1a1aa;">Sent via arveeavena.site · Hit reply to respond directly to ${safeName}.</p>
         </div>
       `,
     });
@@ -145,7 +147,7 @@ export default async function handler(req, res) {
             <p style="font-size:12px;color:#71717a;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin:0 0 8px;">Your message</p>
             <p style="font-size:13px;color:#3f3f46;line-height:1.7;margin:0;">${safeMessage}</p>
           </div>
-          <p style="margin:24px 0 0;font-size:12px;color:#a1a1aa;">— Prince Arvee F. Avena · arveeavena.vercel.app</p>
+          <p style="margin:24px 0 0;font-size:12px;color:#a1a1aa;">— Prince Arvee F. Avena · arveeavena.site</p>
         </div>
       `,
     });

@@ -20,7 +20,7 @@ Your contact form is now protected with multiple security layers:
 - ✅ **HTTP method validation** - Only POST requests allowed
 
 ## 🌐 CORS & Access Control
-- ✅ **CORS headers** - Restricted to your domain (arveeavena.vercel.app)
+- ✅ **CORS headers** - Restricted to your domain (arveeavena.site)
 - ✅ **Method restrictions** - Only POST and OPTIONS allowed
 - ✅ **Error handling** - Generic error messages (don't leak sensitive info)
 
