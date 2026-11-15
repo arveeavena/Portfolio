@@ -4,6 +4,7 @@ import { TopBar } from './components/TopBar';
 import { ProfileHeader } from './components/ProfileHeader';
 import { Work } from './components/Work';
 import { TechStack } from './components/TechStack';
+import { Services } from './components/Services';
 import { FAQ } from './components/FAQ';
 import { FooterGrid } from './components/FooterGrid';
 import { PokeButton } from './components/PokeButton';
@@ -21,6 +22,7 @@ function App() {
         <ProfileHeader />
         <TechStack />
         <Work />
+        <Services />
         <FAQ />
         <FooterGrid />
       </main>

@@ -5,6 +5,7 @@
 // For answer and AI engines (AEO/GEO) it also emits FAQPage JSON-LD and /llms.txt.
 import { readFileSync, writeFileSync, rmSync, mkdirSync } from 'node:fs'
 import { projectPage } from './project-pages.mjs'
+import { servicePage } from './service-pages.mjs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
@@ -12,7 +13,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const SITE = 'https://arveeavena.site'
 const ssrDir = resolve(root, 'dist-ssr')
 
-const { render, PROJECTS, FAQ } = await import(pathToFileURL(resolve(ssrDir, 'entry-server.js')).href)
+const { render, PROJECTS, FAQ, SERVICES } = await import(pathToFileURL(resolve(ssrDir, 'entry-server.js')).href)
 
 const indexPath = resolve(root, 'dist/index.html')
 let html = readFileSync(indexPath, 'utf8')
@@ -71,6 +72,10 @@ writeFileSync(resolve(root, 'dist/llms.txt'), `# Prince Arvee Avena
 - LinkedIn: https://www.linkedin.com/in/princearveeavena/
 - Resume (PDF): ${SITE}/RESUME.pdf
 
+## Services
+
+${SERVICES.map(s => `- [${s.title}](${SITE}/services/${s.slug}): ${s.lead}`).join('\n')}
+
 ## FAQ
 
 ${FAQ.map(({ q, a }) => `### ${q}\n\n${a}`).join('\n\n')}
@@ -82,7 +87,11 @@ ${PROJECTS.map(p => `- [${p.name}](${SITE}/work/${p.slug}): ${p.label}. ${p.desc
 
 // One static page per project at /work/<slug> (rewritten to /work/<slug>.html).
 mkdirSync(resolve(root, 'dist/work'), { recursive: true })
-for (const p of PROJECTS) writeFileSync(resolve(root, `dist/work/${p.slug}.html`), projectPage(p, PROJECTS, SITE))
+for (const p of PROJECTS) writeFileSync(resolve(root, `dist/work/${p.slug}.html`), projectPage(p, PROJECTS, SITE, SERVICES))
+
+// One page per service at /services/<slug>, answering "who can build X for me?".
+mkdirSync(resolve(root, 'dist/services'), { recursive: true })
+for (const s of SERVICES) writeFileSync(resolve(root, `dist/services/${s.slug}.html`), servicePage(s, PROJECTS, SERVICES, SITE))
 
 // Sitemap with today's lastmod and the screenshots as image entries.
 const xml = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -99,6 +108,10 @@ writeFileSync(resolve(root, 'dist/sitemap.xml'), `<?xml version="1.0" encoding="
     <lastmod>${today}</lastmod>
 ${images}
   </url>
+${SERVICES.map(s => `  <url>
+    <loc>${SITE}/services/${s.slug}</loc>
+    <lastmod>${today}</lastmod>
+  </url>`).join('\n')}
 ${PROJECTS.map(p => `  <url>
     <loc>${SITE}/work/${p.slug}</loc>
     <lastmod>${today}</lastmod>${Array.from({ length: p.shots }, (_, i) => `
@@ -108,4 +121,4 @@ ${PROJECTS.map(p => `  <url>
 `)
 
 rmSync(ssrDir, { recursive: true, force: true })
-console.log(`prerender: ${appHtml.length} chars of HTML, ${PROJECTS.length} projects in JSON-LD, ${FAQ.length} FAQs, ${PROJECTS.length} project pages, llms.txt`)
+console.log(`prerender: ${appHtml.length} chars of HTML, ${PROJECTS.length} projects in JSON-LD, ${FAQ.length} FAQs, ${PROJECTS.length} project pages, ${SERVICES.length} service pages, llms.txt`)

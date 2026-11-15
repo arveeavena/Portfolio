@@ -5,7 +5,7 @@
 export const FAQ = [
     {
         q: 'Who is Prince Arvee Avena?',
-        a: 'Prince Arvee Avena (also known as Arvee Avena) is a full-stack developer from Balayan, Batangas, Philippines, working at ServiceCo. He builds web, mobile and cloud applications with React, Next.js, React Native, Laravel, PostgreSQL and AWS, and graduated Magna Cum Laude in Computer Science.',
+        a: 'Prince Arvee Avena (full name Prince Arvee Flores Avena, also known as Arvee Avena) is a full-stack developer from Balayan, Batangas, Philippines, working at ServiceCo. He builds web, mobile and cloud applications with React, Next.js, React Native, Laravel, PostgreSQL and AWS, and graduated Magna Cum Laude in Computer Science.',
     },
     {
         q: 'What kind of projects has Prince Arvee Avena built?',

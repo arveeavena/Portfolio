@@ -56,6 +56,10 @@
       "destination": "/landing.html"
     },
     {
+      "source": "/services/:slug",
+      "destination": "/services/:slug.html"
+    },
+    {
       "source": "/work/:slug",
       "destination": "/work/:slug.html"
     },
