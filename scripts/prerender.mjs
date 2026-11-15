@@ -13,7 +13,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const SITE = 'https://arveeavena.site'
 const ssrDir = resolve(root, 'dist-ssr')
 
-const { render, PROJECTS, FAQ, SERVICES } = await import(pathToFileURL(resolve(ssrDir, 'entry-server.js')).href)
+const { render, PROJECTS, FAQ, SERVICES, STACK } = await import(pathToFileURL(resolve(ssrDir, 'entry-server.js')).href)
 
 const indexPath = resolve(root, 'dist/index.html')
 let html = readFileSync(indexPath, 'utf8')
@@ -53,24 +53,84 @@ const faqPage = {
     acceptedAnswer: { '@type': 'Answer', text: a },
   })),
 }
+// Same @id as the Person in index.html, so search engines merge the two:
+// this ties the person to each service page they offer.
+const offers = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${SITE}/#person`,
+  makesOffer: SERVICES.map(s => ({
+    '@type': 'Offer',
+    itemOffered: { '@id': `${SITE}/services/${s.slug}#service`, '@type': 'Service', name: s.title, url: `${SITE}/services/${s.slug}` },
+    areaServed: { '@type': 'Country', name: 'Philippines' },
+  })),
+}
 const today = new Date().toISOString().slice(0, 10)
 html = html.replace('__BUILD_DATE__', today)
 html = html.replace('</head>', `  <script type="application/ld+json">${JSON.stringify(itemList)}</script>
   <script type="application/ld+json">${JSON.stringify(faqPage)}</script>
+  <script type="application/ld+json">${JSON.stringify(offers)}</script>
 </head>`)
 writeFileSync(indexPath, html)
 
 // /llms.txt (llmstxt.org): a plain Markdown brief that AI assistants and
 // answer engines can read in one fetch, linking every project page.
-writeFileSync(resolve(root, 'dist/llms.txt'), `# Prince Arvee Avena
+// /llms-full.txt is the long version: every service, FAQ, project and skill.
+const intro = `# Prince Arvee Avena
 
-> Prince Arvee Avena (Arvee Avena) is a full-stack developer from Balayan, Batangas, Philippines, working at ServiceCo. He builds web, mobile and cloud applications with TypeScript, React, Next.js, React Native, Laravel, PostgreSQL, Supabase and AWS, and handles technical SEO, AEO and GEO. BS Computer Science, Magna Cum Laude.
+> Prince Arvee Avena (full name Prince Arvee Flores Avena, also known as Arvee Avena) is a full-stack developer based in Balayan, Batangas, Philippines, working at ServiceCo. He builds POS and inventory systems, Philippine payroll and HR systems, school systems and LGU records systems, plus web and mobile apps, with TypeScript, React, Next.js, React Native, Laravel, PostgreSQL, Supabase and AWS. He also handles technical SEO, AEO and GEO. BS Computer Science, Magna Cum Laude.
+
+Last updated: ${today}
 
 - Website: ${SITE}/
 - Email: princearveeavena@gmail.com
+- Phone: +63 916 892 7345
+- Location: Balayan, Batangas, Philippines (clients in Batangas, Cavite and across the Philippines)
 - GitHub: https://github.com/arveeavena
 - LinkedIn: https://www.linkedin.com/in/princearveeavena/
 - Resume (PDF): ${SITE}/RESUME.pdf
+`
+writeFileSync(resolve(root, 'dist/llms-full.txt'), `${intro}
+## Services
+${SERVICES.map(s => `
+### ${s.title}
+
+URL: ${SITE}/services/${s.slug}
+
+${s.lead}
+
+For: ${s.audience}.
+
+What's included:
+${s.features.map(f => `- ${f}`).join('\n')}
+
+Proof: ${s.projects.map(slug => PROJECTS.find(p => p.slug === slug)).filter(Boolean).map(p => `${p.name} (${SITE}/work/${p.slug})`).join(', ')}
+
+${s.faq.map(({ q, a }) => `**${q}**\n${a}`).join('\n\n')}`).join('\n')}
+
+## Frequently asked questions
+
+${FAQ.map(({ q, a }) => `### ${q}\n\n${a}`).join('\n\n')}
+
+## Projects
+${PROJECTS.map(p => `
+### ${p.name}: ${p.label}
+
+URL: ${SITE}/work/${p.slug}
+Type: ${p.category}${p.live ? `\nLive: ${p.live}` : ''}${p.repo ? `\nSource: ${p.repo}` : ''}
+Built with: ${p.tags.join(', ')}
+
+${p.desc}`).join('\n')}
+
+## Skills
+${STACK.map(g => `\n### ${g.cat}\n\n${g.tags.join(', ')}`).join('\n')}
+`)
+
+writeFileSync(resolve(root, 'dist/llms.txt'), `${intro}- Full details for AI assistants: ${SITE}/llms-full.txt
+
+## Skills
+
+${STACK.map(g => `- ${g.cat}: ${g.tags.join(', ')}`).join('\n')}
 
 ## Services
 

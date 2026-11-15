@@ -29,7 +29,7 @@ if (!existsSync(sitemap)) {
 const urlList = [...readFileSync(sitemap, 'utf8').matchAll(/<loc>(https:\/\/[^<]+)<\/loc>/g)]
   .map(m => m[1])
   .filter(u => !u.includes('/shots/'))
-urlList.push(`https://${HOST}/llms.txt`)
+urlList.push(`https://${HOST}/llms.txt`, `https://${HOST}/llms-full.txt`)
 
 try {
   const res = await fetch('https://api.indexnow.org/IndexNow', {

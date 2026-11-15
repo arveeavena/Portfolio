@@ -4,9 +4,10 @@ import App from './App.jsx'
 import { PROJECTS } from './data/projects.js'
 import { FAQ } from './data/faq.js'
 import { SERVICES } from './data/services.js'
+import { STACK } from './data/stack.js'
 
 export function render() {
   return renderToString(<App />)
 }
 
-export { PROJECTS, FAQ, SERVICES }
+export { PROJECTS, FAQ, SERVICES, STACK }

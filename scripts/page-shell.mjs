@@ -6,7 +6,26 @@ export const esc = s => String(s)
 export const host = url => url.replace(/^https?:\/\//, '').replace(/\/$/, '');
 export const trimDesc = d => d.length > 158 ? `${d.slice(0, 155).replace(/\s+\S*$/, '')}…` : d;
 
+const TODAY = new Date().toISOString().slice(0, 10);
+const UPDATED = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'Asia/Manila' });
+
 export function shell({ title, desc, url, image, ld, body }) {
+  // Every page gets a WebPage node: what it is about, who it belongs to and
+  // when it last changed. Freshness and clear ownership help AI answers cite it.
+  const main = ld['@graph'][0];
+  ld['@graph'].push({
+    '@type': 'WebPage',
+    '@id': url,
+    url,
+    name: title,
+    description: desc,
+    inLanguage: 'en',
+    dateModified: TODAY,
+    primaryImageOfPage: image,
+    isPartOf: { '@id': 'https://arveeavena.site/#website' },
+    author: { '@id': 'https://arveeavena.site/#person' },
+    ...(main?.['@id'] ? { mainEntity: { '@id': main['@id'] } } : {}),
+  });
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,6 +40,7 @@ export function shell({ title, desc, url, image, ld, body }) {
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <meta property="og:type" content="article" />
+  <meta property="article:modified_time" content="${TODAY}" />
   <meta property="og:site_name" content="Prince Arvee Avena" />
   <meta property="og:url" content="${url}" />
   <meta property="og:title" content="${esc(title)}" />
@@ -84,7 +104,7 @@ export function shell({ title, desc, url, image, ld, body }) {
   <main class="wrap">
 ${body}
     <footer>
-      <a href="/">← Back to arveeavena.site</a> · © ${new Date().getFullYear()} Prince Arvee Avena · Full-stack developer, Balayan, Batangas, Philippines
+      <a href="/">← Back to arveeavena.site</a> · © ${new Date().getFullYear()} Prince Arvee Avena · Full-stack developer, Balayan, Batangas, Philippines · Updated <time datetime="${TODAY}">${UPDATED}</time>
     </footer>
   </main>
 </body>
