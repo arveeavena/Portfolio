@@ -37,7 +37,8 @@ export function shell({ title, desc, url, image, ld, body }) {
   <meta name="author" content="Prince Arvee Avena" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="${url}" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <meta property="og:type" content="article" />
   <meta property="article:modified_time" content="${TODAY}" />
