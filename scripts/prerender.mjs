@@ -2,6 +2,7 @@
 // writes it into dist/index.html, so search engines get the full page
 // (name, projects, experience) without executing JavaScript. Also adds a
 // JSON-LD ItemList of the projects and an image sitemap of the screenshots.
+// For answer and AI engines (AEO/GEO) it also emits FAQPage JSON-LD and /llms.txt.
 import { readFileSync, writeFileSync, rmSync, mkdirSync } from 'node:fs'
 import { projectPage } from './project-pages.mjs'
 import { resolve, dirname } from 'node:path'
@@ -11,7 +12,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const SITE = 'https://arveeavena.site'
 const ssrDir = resolve(root, 'dist-ssr')
 
-const { render, PROJECTS } = await import(pathToFileURL(resolve(ssrDir, 'entry-server.js')).href)
+const { render, PROJECTS, FAQ } = await import(pathToFileURL(resolve(ssrDir, 'entry-server.js')).href)
 
 const indexPath = resolve(root, 'dist/index.html')
 let html = readFileSync(indexPath, 'utf8')
@@ -40,15 +41,50 @@ const itemList = {
     },
   })),
 }
-html = html.replace('</head>', `  <script type="application/ld+json">${JSON.stringify(itemList)}</script>\n</head>`)
+const faqPage = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${SITE}/#faq`,
+  about: { '@id': `${SITE}/#person` },
+  mainEntity: FAQ.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+}
+const today = new Date().toISOString().slice(0, 10)
+html = html.replace('__BUILD_DATE__', today)
+html = html.replace('</head>', `  <script type="application/ld+json">${JSON.stringify(itemList)}</script>
+  <script type="application/ld+json">${JSON.stringify(faqPage)}</script>
+</head>`)
 writeFileSync(indexPath, html)
+
+// /llms.txt (llmstxt.org): a plain Markdown brief that AI assistants and
+// answer engines can read in one fetch, linking every project page.
+writeFileSync(resolve(root, 'dist/llms.txt'), `# Prince Arvee Avena
+
+> Prince Arvee Avena (Arvee Avena) is a full-stack developer from Balayan, Batangas, Philippines, working at ServiceCo. He builds web, mobile and cloud applications with TypeScript, React, Next.js, React Native, Laravel, PostgreSQL, Supabase and AWS, and handles technical SEO, AEO and GEO. BS Computer Science, Magna Cum Laude.
+
+- Website: ${SITE}/
+- Email: princearveeavena@gmail.com
+- GitHub: https://github.com/arveeavena
+- LinkedIn: https://www.linkedin.com/in/princearveeavena/
+- Resume (PDF): ${SITE}/RESUME.pdf
+
+## FAQ
+
+${FAQ.map(({ q, a }) => `### ${q}\n\n${a}`).join('\n\n')}
+
+## Projects
+
+${PROJECTS.map(p => `- [${p.name}](${SITE}/work/${p.slug}): ${p.label}. ${p.desc} Built with ${p.tags.join(', ')}.${p.live ? ` Live at ${p.live}.` : ''}`).join('\n')}
+`)
 
 // One static page per project at /work/<slug> (rewritten to /work/<slug>.html).
 mkdirSync(resolve(root, 'dist/work'), { recursive: true })
 for (const p of PROJECTS) writeFileSync(resolve(root, `dist/work/${p.slug}.html`), projectPage(p, PROJECTS, SITE))
 
 // Sitemap with today's lastmod and the screenshots as image entries.
-const today = new Date().toISOString().slice(0, 10)
 const xml = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 const images = PROJECTS.flatMap(p =>
   Array.from({ length: p.shots }, (_, i) => `    <image:image>
@@ -72,4 +108,4 @@ ${PROJECTS.map(p => `  <url>
 `)
 
 rmSync(ssrDir, { recursive: true, force: true })
-console.log(`prerender: ${appHtml.length} chars of HTML, ${PROJECTS.length} projects in JSON-LD, ${PROJECTS.length} project pages`)
+console.log(`prerender: ${appHtml.length} chars of HTML, ${PROJECTS.length} projects in JSON-LD, ${FAQ.length} FAQs, ${PROJECTS.length} project pages, llms.txt`)

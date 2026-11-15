@@ -48,6 +48,9 @@ export function ProfileHeader() {
                     <p>
                         I build software that is reliable, secure and simple to use. Role-based access, audit
                         trails, backups and CI pipelines are part of every system I ship, not an afterthought.
+                        Every site is also built to be found: prerendered pages, structured data and fast
+                        load times, so it ranks on Google and shows up in AI answers from ChatGPT and
+                        Google&rsquo;s AI Overviews.
                         I&rsquo;m committed to growing as an engineer and building technology that makes real
                         work faster for the people who depend on it.
                     </p>

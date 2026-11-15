@@ -21,6 +21,15 @@ const STACK = [
         ],
     },
     {
+        cat: 'SEO, AEO & GEO',
+        tags: [
+            'Technical SEO', 'Answer Engine Optimization (AEO)', 'Generative Engine Optimization (GEO)',
+            'Schema.org / JSON-LD', 'Server-Side Prerendering', 'XML & Image Sitemaps',
+            'Core Web Vitals', 'Google Search Console', 'Open Graph & Social Cards',
+            'llms.txt', 'Lighthouse',
+        ],
+    },
+    {
         cat: 'Cloud & DevOps',
         tags: [
             'AWS', 'ECS / Fargate', 'RDS / Aurora', 'Amazon S3', 'ECR',
@@ -79,7 +88,7 @@ const STACK = [
     },
 ];
 
-const PREVIEW_COUNT = 3;
+const PREVIEW_COUNT = 4;
 
 function AnimatedTag({ children, delay }) {
     const icon = BRAND[children];

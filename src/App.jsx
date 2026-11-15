@@ -4,6 +4,7 @@ import { TopBar } from './components/TopBar';
 import { ProfileHeader } from './components/ProfileHeader';
 import { Work } from './components/Work';
 import { TechStack } from './components/TechStack';
+import { FAQ } from './components/FAQ';
 import { FooterGrid } from './components/FooterGrid';
 import { PokeButton } from './components/PokeButton';
 // Certifications (Gallery.jsx) stay hidden; files kept in /public/certificates/.
@@ -20,6 +21,7 @@ function App() {
         <ProfileHeader />
         <TechStack />
         <Work />
+        <FAQ />
         <FooterGrid />
       </main>
 

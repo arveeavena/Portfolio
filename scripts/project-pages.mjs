@@ -4,15 +4,50 @@
 
 const esc = s => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+// "LGU Records Management" -> "LGU records management": lowercase for mid-sentence
+// use, but keep acronyms (LGU, HR, POS) and proper nouns intact.
+const PROPER = new Set(['Windows']);
+const noun = label => label.split(' ')
+  .map(w => /^[A-Z0-9&+,-]{2,}$/.test(w) || PROPER.has(w) ? w : w.toLowerCase()).join(' ');
+// "a" or "an" by sound: "an HR platform", "an alumni network", "a POS".
+const aOrAn = phrase => /^[aeiou]/.test(phrase) || /^[AEFHILMNORSX][A-Z]/.test(phrase) ? 'an' : 'a';
+// "School Clinic Management" reads as a thing only with a head noun in it.
+const kind = label => {
+  const n = noun(label);
+  return /\b(platform|network|builder|website|analyzer|system|app|POS)\b/.test(n) ? n : `${n} system`;
+};
 const host = url => url.replace(/^https?:\/\//, '').replace(/\/$/, '');
 
 export function projectPage(p, all, SITE) {
   const url = `${SITE}/work/${p.slug}`;
   const title = `${p.name}: ${p.label} | Prince Arvee Avena`;
-  const desc = `${p.name} is a ${p.label.toLowerCase()} built by Prince Arvee Avena (Arvee Avena), full-stack developer in the Philippines. ${p.desc}`;
+  const desc = `${p.name} is ${aOrAn(kind(p.label))} ${kind(p.label)} built by Prince Arvee Avena (Arvee Avena), full-stack developer in the Philippines. ${p.desc}`;
   const metaDesc = desc.length > 158 ? `${desc.slice(0, 155).replace(/\s+\S*$/, '')}…` : desc;
   const image = p.shots > 0 ? `${SITE}/shots/${p.slug}-1.webp` : `${SITE}/og-image.jpg`;
   const others = all.filter(o => o.slug !== p.slug).slice(0, 6);
+
+  // Answer-first Q&A (AEO/GEO): short, quotable answers that search answer
+  // boxes and AI assistants can lift verbatim. Shown on the page and in JSON-LD.
+  const faq = [
+    {
+      q: `What is ${p.name}?`,
+      a: `${p.name} is ${aOrAn(kind(p.label))} ${kind(p.label)} built by Prince Arvee Avena (Arvee Avena), a full-stack developer in the Philippines. ${p.desc}`,
+    },
+    {
+      q: `What is ${p.name} built with?`,
+      a: `${p.name} is built with ${p.tags.slice(0, -1).join(', ')}${p.tags.length > 1 ? ' and ' : ''}${p.tags[p.tags.length - 1]}.`,
+    },
+    {
+      q: `Who built ${p.name}?`,
+      a: `${p.name} was designed and built by Prince Arvee Avena, a full-stack developer from Balayan, Batangas, Philippines. He is available for similar projects at ${host(SITE)}.`,
+    },
+    {
+      q: `Is ${p.name} live?`,
+      a: p.live
+        ? `Yes. ${p.name} is live at ${host(p.live)}.`
+        : `${p.name} is not publicly hosted.${p.repo ? ' Its source code is on GitHub.' : (p.category === 'Desktop' ? ' It is a Windows desktop app with private source code.' : ' It is a private client system.')}`,
+    },
+  ];
 
   const ld = {
     '@context': 'https://schema.org',
@@ -38,6 +73,16 @@ export function projectPage(p, all, SITE) {
           { '@type': 'ListItem', position: 3, name: p.name, item: url },
         ],
       },
+      {
+        '@type': 'FAQPage',
+        '@id': `${url}#faq`,
+        about: { '@id': `${url}#app` },
+        mainEntity: faq.map(({ q, a }) => ({
+          '@type': 'Question',
+          name: q,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      },
     ],
   };
 
@@ -45,7 +90,7 @@ export function projectPage(p, all, SITE) {
       <figure class="shot">
         <img src="/shots/${p.slug}-${i + 1}.webp" srcset="/shots/${p.slug}-${i + 1}-720.webp 720w, /shots/${p.slug}-${i + 1}.webp 1440w"
           sizes="(max-width: 900px) 100vw, 860px" width="1440" height="900" ${i ? 'loading="lazy"' : 'fetchpriority="high"'} decoding="async"
-          alt="${esc(`${p.name} ${p.label.toLowerCase()} screenshot ${i + 1}, built by Prince Arvee Avena`)}" />
+          alt="${esc(`${p.name} ${noun(p.label)} screenshot ${i + 1}, built by Prince Arvee Avena`)}" />
       </figure>`).join('');
 
   return `<!DOCTYPE html>
@@ -102,6 +147,10 @@ export function projectPage(p, all, SITE) {
     .more { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; padding:0; list-style:none; }
     .more a { display:block; padding:12px 14px; border:1px solid var(--border); border-radius:10px; background:var(--card); text-decoration:none; color:var(--text); }
     .more span { display:block; font-size:13px; color:var(--muted); }
+    .facts { display:grid; gap:10px; margin:0; }
+    .facts div { padding:14px 16px; border:1px solid var(--border); border-radius:10px; background:var(--card); }
+    .facts h3 { font-size:15px; margin:0 0 4px; }
+    .facts p { margin:0; font-size:14.5px; color:var(--muted); }
     footer { margin-top: 48px; padding-top: 20px; border-top:1px solid var(--border); font-size:13.5px; color:var(--muted); }
   </style>
 </head>
@@ -125,6 +174,11 @@ export function projectPage(p, all, SITE) {
       <a class="btn" href="/#contact">Hire me for a project like this</a>
     </div>
 ${shots}
+    <h2>Quick facts about ${esc(p.name)}</h2>
+    <div class="facts">${faq.map(({ q, a }) => `
+      <div><h3>${esc(q)}</h3><p>${esc(a)}</p></div>`).join('')}
+    </div>
+
     <h2>More projects by Prince Arvee Avena</h2>
     <ul class="more">${others.map(o => `
       <li><a href="/work/${o.slug}">${esc(o.name)}<span>${esc(o.label)}</span></a></li>`).join('')}
