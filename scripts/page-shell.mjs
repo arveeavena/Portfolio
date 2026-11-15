@@ -52,6 +52,9 @@ export function shell({ title, desc, url, image, ld, body }) {
   <meta name="twitter:description" content="${esc(desc)}" />
   <meta name="twitter:image" content="${image}" />
   <script type="application/ld+json">${JSON.stringify(ld)}</script>
+  <!-- Vercel Web Analytics: counts visits to these static pages too (the homepage uses <Analytics/>). -->
+  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+  <script defer src="/_vercel/insights/script.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
