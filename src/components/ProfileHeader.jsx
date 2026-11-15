@@ -1,5 +1,4 @@
 import { Experience } from './Experience';
-import { PokeButton } from './PokeButton';
 
 const MailIcon = () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -65,7 +64,6 @@ export function ProfileHeader() {
                         Download CV
                     </a>
                     <a href="#work" className="btn">See projects</a>
-                    <PokeButton />
                 </div>
             </div>
 

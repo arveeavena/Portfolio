@@ -5,6 +5,7 @@ import { ProfileHeader } from './components/ProfileHeader';
 import { Work } from './components/Work';
 import { TechStack } from './components/TechStack';
 import { FooterGrid } from './components/FooterGrid';
+import { PokeButton } from './components/PokeButton';
 // Certifications (Gallery.jsx) stay hidden; files kept in /public/certificates/.
 
 function App() {
@@ -21,6 +22,10 @@ function App() {
         <TechStack />
         <FooterGrid />
       </main>
+
+      <div className="poke-dock">
+        <PokeButton />
+      </div>
     </>
   );
 }

@@ -420,16 +420,48 @@ html.js .reveal.visible {
 .btn-primary:hover { opacity: 0.88; }
 .btn svg { width: 13px; height: 13px; flex-shrink: 0; }
 
-/* Poke button: shared counter + floating "+1" */
-.poke-btn { overflow: visible; user-select: none; }
+/* Poke button: floats on its own in the bottom-right corner */
+.poke-dock {
+  position: fixed;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  z-index: 900;
+}
+.poke-btn {
+  overflow: visible;
+  user-select: none;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  color: var(--accent-strong);
+  font-weight: 600;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 35%, transparent);
+  animation: poke-glow 2.6s ease-in-out infinite;
+}
+.poke-btn:hover {
+  background: color-mix(in srgb, var(--accent) 20%, var(--bg));
+  border-color: var(--accent);
+}
+@media (max-width: 640px) {
+  .poke-dock { right: 16px; bottom: max(16px, env(safe-area-inset-bottom)); }
+}
+.poke-btn::after { display: none; }
+@keyframes poke-glow {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 30%, transparent); }
+  50% { box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 0%, transparent), 0 0 18px color-mix(in srgb, var(--accent) 28%, transparent); }
+}
 .poke-hand { display: inline-block; font-size: 13px; line-height: 1; transform-origin: 30% 60%; }
 .poke-btn:active .poke-hand { animation: poke-jab 0.25s ease-out; }
 .poke-count {
   margin-left: 2px;
   padding: 1px 7px;
   border-radius: 999px;
-  background: var(--accent-soft);
-  color: var(--accent);
+  background: var(--accent);
+  color: var(--bg);
   font-size: 11.5px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
@@ -450,7 +482,7 @@ html.js .reveal.visible {
   to { opacity: 0; transform: translateY(-22px); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .poke-btn:active .poke-hand, .poke-burst { animation: none; }
+  .poke-btn, .poke-btn:active .poke-hand, .poke-burst { animation: none; }
   .poke-burst { display: none; }
 }
 
