@@ -2,7 +2,8 @@
 // writes it into dist/index.html, so search engines get the full page
 // (name, projects, experience) without executing JavaScript. Also adds a
 // JSON-LD ItemList of the projects and an image sitemap of the screenshots.
-import { readFileSync, writeFileSync, rmSync } from 'node:fs'
+import { readFileSync, writeFileSync, rmSync, mkdirSync } from 'node:fs'
+import { projectPage } from './project-pages.mjs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
@@ -42,6 +43,10 @@ const itemList = {
 html = html.replace('</head>', `  <script type="application/ld+json">${JSON.stringify(itemList)}</script>\n</head>`)
 writeFileSync(indexPath, html)
 
+// One static page per project at /work/<slug> (rewritten to /work/<slug>.html).
+mkdirSync(resolve(root, 'dist/work'), { recursive: true })
+for (const p of PROJECTS) writeFileSync(resolve(root, `dist/work/${p.slug}.html`), projectPage(p, PROJECTS, SITE))
+
 // Sitemap with today's lastmod and the screenshots as image entries.
 const today = new Date().toISOString().slice(0, 10)
 const xml = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -58,8 +63,13 @@ writeFileSync(resolve(root, 'dist/sitemap.xml'), `<?xml version="1.0" encoding="
     <lastmod>${today}</lastmod>
 ${images}
   </url>
+${PROJECTS.map(p => `  <url>
+    <loc>${SITE}/work/${p.slug}</loc>
+    <lastmod>${today}</lastmod>${Array.from({ length: p.shots }, (_, i) => `
+    <image:image><image:loc>${SITE}/shots/${p.slug}-${i + 1}.webp</image:loc></image:image>`).join('')}
+  </url>`).join('\n')}
 </urlset>
 `)
 
 rmSync(ssrDir, { recursive: true, force: true })
-console.log(`prerender: ${appHtml.length} chars of HTML, ${PROJECTS.length} projects in JSON-LD`)
+console.log(`prerender: ${appHtml.length} chars of HTML, ${PROJECTS.length} projects in JSON-LD, ${PROJECTS.length} project pages`)

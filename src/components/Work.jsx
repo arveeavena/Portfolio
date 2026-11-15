@@ -70,6 +70,10 @@ function Links({ project, big = false }) {
             ) : (
                 <span className="wl wl-muted" title="Client project: source code is private"><LockIcon /> Private repo</span>
             )}
+            <a className="wl" href={`/work/${project.slug}`} onClick={e => e.stopPropagation()}
+                aria-label={`${project.name} project details`}>
+                Details
+            </a>
         </div>
     );
 }
