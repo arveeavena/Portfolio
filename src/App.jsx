@@ -18,8 +18,8 @@ function App() {
 
       <main className="page page-enter">
         <ProfileHeader />
-        <Work />
         <TechStack />
+        <Work />
         <FooterGrid />
       </main>
 
