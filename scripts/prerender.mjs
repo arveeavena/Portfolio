@@ -154,13 +154,18 @@ mkdirSync(resolve(root, 'dist/services'), { recursive: true })
 for (const s of SERVICES) writeFileSync(resolve(root, `dist/services/${s.slug}.html`), servicePage(s, PROJECTS, SERVICES, SITE))
 
 // Sitemap with today's lastmod and the screenshots as image entries.
+// The profile photo comes first so Google can show it for name searches.
 const xml = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-const images = PROJECTS.flatMap(p =>
+const profilePhoto = `    <image:image>
+      <image:loc>${SITE}/prince-arvee-avena.jpg</image:loc>
+      <image:title>Prince Arvee Avena, full-stack developer from Balayan, Batangas, Philippines</image:title>
+    </image:image>`
+const images = [profilePhoto, ...PROJECTS.flatMap(p =>
   Array.from({ length: p.shots }, (_, i) => `    <image:image>
       <image:loc>${SITE}/shots/${p.slug}-${i + 1}.webp</image:loc>
       <image:title>${xml(`${p.name}: ${p.label} by Prince Arvee Avena`)}</image:title>
     </image:image>`)
-).join('\n')
+)].join('\n')
 writeFileSync(resolve(root, 'dist/sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>

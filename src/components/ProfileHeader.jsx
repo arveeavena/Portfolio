@@ -15,12 +15,12 @@ export function ProfileHeader() {
                     <div className="profile-photo">
                         <img
                             src="/picture-256.webp"
-                            srcSet="/picture-256.webp 256w, /picture-384.webp 384w"
+                            srcSet="/picture-256.webp 256w, /picture-384.webp 384w, /prince-arvee-avena.jpg 1200w"
                             sizes="72px"
                             width="72"
                             height="72"
                             fetchPriority="high"
-                            alt="Prince Arvee Avena"
+                            alt="Prince Arvee Avena, full-stack developer from Balayan, Batangas, Philippines"
                         />
                     </div>
                     <div>

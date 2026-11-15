@@ -59,7 +59,16 @@
           "givenName": "Prince Arvee",
           "familyName": "Avena",
           "url": "https://arveeavena.site/",
-          "image": "https://arveeavena.site/og-image.jpg",
+          "image": {
+            "@type": "ImageObject",
+            "@id": "https://arveeavena.site/#photo",
+            "url": "https://arveeavena.site/prince-arvee-avena.jpg",
+            "contentUrl": "https://arveeavena.site/prince-arvee-avena.jpg",
+            "width": 1200,
+            "height": 1200,
+            "caption": "Prince Arvee Avena, full-stack developer from Balayan, Batangas, Philippines",
+            "creditText": "Prince Arvee Avena"
+          },
           "email": "mailto:princearveeavena@gmail.com",
           "telephone": "+639168927345",
           "jobTitle": "Full-stack Developer",
@@ -109,7 +118,8 @@
           "name": "Prince Arvee Avena | Full-Stack Developer in Batangas, Philippines",
           "inLanguage": "en",
           "dateModified": "__BUILD_DATE__",
-          "mainEntity": { "@id": "https://arveeavena.site/#person" }
+          "mainEntity": { "@id": "https://arveeavena.site/#person" },
+          "primaryImageOfPage": { "@id": "https://arveeavena.site/#photo" }
         },
         {
           "@type": "WebSite",
@@ -124,7 +134,7 @@
   </script>
 
   <link rel="preload" as="image" href="/picture-256.webp"
-    imagesrcset="/picture-256.webp 256w, /picture-384.webp 384w" imagesizes="72px" fetchpriority="high" />
+    imagesrcset="/picture-256.webp 256w, /picture-384.webp 384w, /prince-arvee-avena.jpg 1200w" imagesizes="72px" fetchpriority="high" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
