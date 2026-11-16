@@ -426,7 +426,7 @@ a.wl-primary:hover { background: var(--btn-primary-bg); opacity: .88; }
    ════════════════════════════════════════════════════════════════ */
 :root[data-theme="light"] {
   --glass: rgba(255, 255, 255, 0.55);
-  --glass-strong: rgba(255, 255, 255, 0.9);
+  --glass-strong: rgba(255, 255, 255, 0.95);
   --glass-border: rgba(255, 255, 255, 0.75);
   --glass-edge: rgba(15, 23, 42, 0.07);
   --glass-hi: inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -438,7 +438,7 @@ a.wl-primary:hover { background: var(--btn-primary-bg); opacity: .88; }
 }
 :root[data-theme="dark"] {
   --glass: rgba(30, 30, 36, 0.5);
-  --glass-strong: rgba(24, 24, 28, 0.92);
+  --glass-strong: rgba(24, 24, 28, 0.95);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-edge: rgba(255, 255, 255, 0.06);
   --glass-hi: inset 0 1px 0 rgba(255, 255, 255, 0.08);
@@ -568,8 +568,8 @@ body::before {
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
-.mq-track { display: flex; width: max-content; animation: mq-slide 55s linear infinite; }
-.mq-rev .mq-track { animation-direction: reverse; animation-duration: 62s; }
+.mq-track { display: flex; width: max-content; animation: mq-slide 170s linear infinite; }
+.mq-rev .mq-track { animation-direction: reverse; animation-duration: 190s; }
 .marquee:hover .mq-track { animation-play-state: paused; }
 .mq-item {
   display: inline-flex; align-items: center; gap: 8px; margin-right: 10px; padding: 8px 14px;
