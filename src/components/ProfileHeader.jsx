@@ -25,34 +25,31 @@ export function ProfileHeader() {
                     </div>
                     <div>
                         <h1 className="profile-name">Prince Arvee Avena</h1>
-                        <p className="hero-role">Full-Stack Developer · Balayan, Batangas, PH</p>
+                        <p className="hero-role">Full-Stack Developer | Software Engineer</p>
                     </div>
                 </div>
 
                 <div className="about-body">
                     <p>
-                        I&rsquo;m <strong>Prince Arvee Avena</strong>, a Full-Stack Developer at ServiceCo
-                        specializing in web and mobile platforms built on one shared codebase. My work spans the
-                        whole stack: PostgreSQL schemas and APIs, React and React Native interfaces, AI features
-                        that answer from a company&rsquo;s own data, and automated deployments on AWS. With a
-                        strong background in TypeScript, Laravel and cloud infrastructure, I take products from
-                        the first database sketch all the way to production.
+                        I am a Full-Stack Developer at ServiceCo, specializing in engineering scalable software
+                        solutions across web, mobile, and cloud platforms. My work encompasses the complete software
+                        development lifecycle, from system architecture and backend engineering to frontend
+                        development, AI integration, and production deployment.
                     </p>
                     <p>
-                        Since 2024 I have designed and delivered systems for businesses, schools and local
-                        government offices across Batangas and Cavite, many of them running in production
-                        today. They cover point of sale, Philippine-compliant payroll, clinic management and public records, each
-                        built hand in hand with the people who run them every day. I graduated Magna Cum Laude
-                        in Computer Science.
+                        Since 2024, I have designed, developed, and delivered software solutions for businesses,
+                        educational institutions, and government organizations. I bring ideas from concept to
+                        production, translating complex requirements into reliable, maintainable, and practical
+                        technology.
                     </p>
                     <p>
-                        I build software that is reliable, secure and simple to use. Role-based access, audit
-                        trails, backups and CI pipelines are part of every system I ship, not an afterthought.
-                        Every site is also built to be found: prerendered pages, structured data and fast
-                        load times, so it ranks on Google and shows up in AI answers from ChatGPT and
-                        Google&rsquo;s AI Overviews.
-                        I&rsquo;m committed to growing as an engineer and building technology that makes real
-                        work faster for the people who depend on it.
+                        My technical expertise includes TypeScript, React, React Native, Laravel, PostgreSQL, AWS,
+                        and AI-driven application development. I place strong emphasis on software architecture,
+                        performance, security, and building systems designed to scale and evolve.
+                    </p>
+                    <p>
+                        A Magna Cum Laude Computer Science graduate, I combine strong academic foundations with
+                        hands-on engineering experience and a commitment to continuous technical growth.
                     </p>
                 </div>
 

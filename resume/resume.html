@@ -1,0 +1,109 @@
+<!doctype html>
+<!-- Source for public/RESUME.pdf. Edit this, then run: npm run resume -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Prince Arvee F. Avena | Resume</title>
+<style>
+  @page { size: A4; margin: 11mm 14mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 9.4pt/1.36 Calibri, 'Segoe UI', Arial, sans-serif; color: #111; }
+  a { color: inherit; text-decoration: none; }
+  header { text-align: center; margin-bottom: 9pt; }
+  h1 { font-size: 21pt; letter-spacing: -0.01em; line-height: 1.1; }
+  .title { font-size: 11pt; font-weight: 600; color: #333; margin-top: 2pt; }
+  .contact { margin-top: 4pt; font-size: 9pt; color: #222; }
+  h2 {
+    font-size: 10.5pt; text-transform: uppercase; letter-spacing: 0.04em;
+    border-bottom: 1px solid #111; padding-bottom: 2pt; margin: 8pt 0 4pt;
+  }
+  .row { display: flex; justify-content: space-between; gap: 12pt; font-weight: 700; }
+  .sub { font-style: italic; color: #333; }
+  .job { margin-bottom: 4pt; }
+  ul { margin: 2pt 0 0 14pt; }
+  li { margin-bottom: 0.5pt; }
+  .skills p { margin-bottom: 1pt; }
+  .muted { color: #555; font-weight: 400; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Prince Arvee F. Avena</h1>
+    <div class="title">Full-Stack Developer | Software Engineer</div>
+    <div class="contact">
+      +63 916 892 7345 &nbsp;|&nbsp; princearveeavena@gmail.com &nbsp;|&nbsp; Balayan, Batangas, Philippines<br />
+      <a href="https://arveeavena.site">arveeavena.site</a> &nbsp;|&nbsp;
+      <a href="https://github.com/arveeavena">github.com/arveeavena</a> &nbsp;|&nbsp;
+      <a href="https://www.linkedin.com/in/princearveeavena/">linkedin.com/in/princearveeavena</a>
+    </div>
+  </header>
+
+  <h2>Summary</h2>
+  <p>
+    Full-stack developer building web and mobile apps from one codebase with React, Next.js, React Native,
+    PostgreSQL and AWS. Point of sale, payroll, clinic and public-records systems I built are running in
+    production for businesses, schools and local government offices in Batangas and Cavite.
+    BS Computer Science, Magna Cum Laude.
+  </p>
+
+  <h2>Experience</h2>
+  <div class="job">
+    <div class="row"><span>Full-Stack Developer</span><span>Jun 2026 – Present</span></div>
+    <div class="sub">ServiceCo Pte. Ltd. · Independent Contractor</div>
+    <ul>
+      <li>Build web and React Native apps from one TypeScript codebase: CRM and operations dashboards, chat and onboarding.</li>
+      <li>Design PostgreSQL schemas and APIs, and add LLM-powered search that answers from company data.</li>
+      <li>Ship to AWS with Docker and CI/CD pipelines.</li>
+    </ul>
+  </div>
+  <div class="job">
+    <div class="row"><span>Freelance Web Developer</span><span>Feb 2025 – Jun 2026</span></div>
+    <div class="sub">Self-Employed</div>
+    <ul>
+      <li>Delivered 10+ systems and sites for shops, schools and LGUs, from requirements to deployment and support.</li>
+      <li>Built role-based access, audit trails, automatic backups and reports into every system.</li>
+      <li>Made each site findable with prerendered pages, structured data and fast load times.</li>
+    </ul>
+  </div>
+  <div class="job">
+    <div class="row"><span>Administrative &amp; IT Support (OJT)</span><span>Dec 2025 – Apr 2026</span></div>
+    <div class="sub">Immaculate Conception College of Balayan, Inc. · Registrar’s Office</div>
+    <ul>
+      <li>Processed 500+ confidential student records with 100% accuracy; digitized physical files.</li>
+      <li>Supported enrollment system updates and document verification during peak registration.</li>
+    </ul>
+  </div>
+  <div class="job">
+    <div class="row"><span>Layout Artist / Publication Designer</span><span>Dec 2025 – Apr 2026</span></div>
+    <div class="sub">Immaculate Conception College of Balayan, Inc.</div>
+    <ul>
+      <li>Designed book layouts, covers and promotional materials to branding standards.</li>
+    </ul>
+  </div>
+
+  <h2>Selected Projects</h2>
+  <ul>
+    <li><b>SchoolCare</b> <span class="muted">· schoolcare.online</span> — school clinic system in production: patient logbook, health records, appointments, medicine inventory with expiry tracking, SMS/email notices and an AI assistant.</li>
+    <li><b>TenPayroll</b> — Philippine HR and payroll: RFID/PIN kiosk attendance, leave and overtime approvals, automatic SSS, PhilHealth, Pag-IBIG and BIR TRAIN withholding, PDF payslips and bank exports.</li>
+    <li><b>Screwfast Trading</b> <span class="muted">· screwfasttrading.site</span> — multi-branch POS and inventory with a stock movement ledger, customer credit, per-branch roles and backups.</li>
+    <li><b>Solo Parent RMS</b> — records system replacing paper files for the Indang, Cavite MSWDO: barangay encoding, municipal verification and ID issuance.</li>
+    <li><b>PESO Balayan</b> <span class="muted">· pesobalayan.site</span> — applicant, employer and admin portals for the Public Employment Service Office of Balayan.</li>
+    <li><b>TenPOS</b> — multi-branch retail POS for web and an Expo Android tablet app, with offline sync.</li>
+  </ul>
+
+  <h2>Education</h2>
+  <div class="row"><span>Bachelor of Science in Computer Science, Magna Cum Laude</span><span>Apr 2026</span></div>
+  <div class="sub">Immaculate Conception College of Balayan, Inc. · Balayan, Batangas</div>
+
+  <h2>Skills</h2>
+  <div class="skills">
+    <p><b>Frontend:</b> React, Next.js, TypeScript, JavaScript, Tailwind CSS, Vite, TanStack Query, Zustand</p>
+    <p><b>Mobile:</b> React Native, Expo, EAS Build and Update</p>
+    <p><b>Backend &amp; Databases:</b> Node.js, Express, PHP, Laravel, REST APIs, Socket.io, PostgreSQL, pgvector, MySQL, Supabase</p>
+    <p><b>Cloud &amp; DevOps:</b> AWS (ECS/Fargate, RDS, S3, SES, CDK), Terraform, Docker, GitHub Actions, Nginx, Vercel</p>
+    <p><b>AI:</b> LLM integration, RAG pipelines, vector embeddings, AWS Bedrock, OpenAI and Anthropic APIs, MCP</p>
+    <p><b>SEO:</b> Technical SEO, JSON-LD structured data, prerendering, Core Web Vitals, Google Search Console</p>
+    <p><b>Design &amp; Tools:</b> Figma, Adobe Photoshop, Canva, Git, GitHub</p>
+  </div>
+</body>
+</html>

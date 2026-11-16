@@ -311,6 +311,32 @@ a.wl-primary:hover { background: var(--btn-primary-bg); opacity: .88; }
 .tl-org { font-size: 13px; color: var(--muted); margin-top: 2px; }
 .tl-desc { font-size: 13px; line-height: 1.6; color: var(--text2); margin-top: 6px; }
 
+/* Timeline intro: the line draws down, each entry slides in after it, the current dot pulses. */
+.timeline { position: relative; border-left-color: transparent; }
+.timeline::before {
+  content: ''; position: absolute; left: -1px; top: 0; bottom: 0; width: 1px; background: var(--border);
+  transform-origin: top; animation: tl-draw 0.9s cubic-bezier(.22,1,.36,1) 0.15s both;
+}
+.tl-item { animation: tl-in 0.55s cubic-bezier(.22,1,.36,1) both; }
+.tl-item:nth-child(1) { animation-delay: 0.25s; }
+.tl-item:nth-child(2) { animation-delay: 0.4s; }
+.tl-item:nth-child(3) { animation-delay: 0.55s; }
+.tl-item:nth-child(4) { animation-delay: 0.7s; }
+.tl-item:nth-child(n+5) { animation-delay: 0.85s; }
+.tl-dot { animation: tl-pop 0.4s cubic-bezier(.34,1.56,.64,1) both; animation-delay: inherit; }
+.tl-item.on .tl-dot::after {
+  content: ''; position: absolute; inset: -2px; border-radius: 50%; border: 2px solid var(--dot-active);
+  animation: tl-pulse 2.4s ease-out 1.2s infinite;
+}
+@keyframes tl-draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes tl-in { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+@keyframes tl-pop { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes tl-pulse { 0% { transform: scale(1); opacity: 0.7; } 70%, 100% { transform: scale(2.6); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .timeline::before, .tl-item, .tl-dot { animation: none; }
+  .tl-item.on .tl-dot::after { display: none; }
+}
+
 /* ── STACK ── */
 .stack-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 40px; }
 .stack-grid .stack-group { margin: 0; }
