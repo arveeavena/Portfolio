@@ -56,6 +56,15 @@ export function ProfileHeader() {
                     </div>
                 </div>
 
+                <dl className="hero-stats">
+                    {STATS.map(s => (
+                        <div className="hero-stat" key={s.label}>
+                            <dt>{s.label}</dt>
+                            <dd><CountUp to={s.n} suffix={s.suffix} /></dd>
+                        </div>
+                    ))}
+                </dl>
+
                 <div className="about-body">
                     <p>
                         I am a Full-Stack Developer at ServiceCo, specializing in engineering scalable software
@@ -92,15 +101,6 @@ export function ProfileHeader() {
                     </a>
                     <a href="#work" className="btn">See projects</a>
                 </div>
-
-                <dl className="hero-stats">
-                    {STATS.map(s => (
-                        <div className="hero-stat" key={s.label}>
-                            <dt>{s.label}</dt>
-                            <dd><CountUp to={s.n} suffix={s.suffix} /></dd>
-                        </div>
-                    ))}
-                </dl>
             </div>
 
             <Experience />
