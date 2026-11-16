@@ -32,10 +32,6 @@ export function TopBar({ theme, onToggle }) {
     return (
         <header className={`topbar${scrolled ? ' scrolled' : ''}${open ? ' menu-open' : ''}`}>
             <div className="topbar-inner">
-                <a href="#top" className="brand" aria-label="Arvee Avena, back to top" onClick={() => setOpen(false)}>
-                    <img className="brand-mark" src="/picture-256.webp" width="30" height="30" alt="" />
-                    <span className="brand-name">Arvee Avena</span>
-                </a>
                 <nav className="topnav" aria-label="Sections">
                     {NAV.map(n => <a key={n.id} href={`#${n.id}`}>{n.label}</a>)}
                 </nav>

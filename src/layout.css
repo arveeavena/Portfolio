@@ -93,13 +93,7 @@
   background: rgba(9, 9, 11, 0.12); opacity: 0; transition: opacity 0.35s ease;
 }
 .menu-open .menu-scrim { opacity: 1; pointer-events: auto; }
-.brand { display: inline-flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; }
-.brand-mark {
-  width: 30px; height: 30px; border-radius: 50%; object-fit: cover; display: block;
-  border: 1px solid var(--border); background: var(--bg2);
-}
-.brand-name { font-weight: 700; font-size: 14.5px; letter-spacing: var(--track-snug); }
-.topnav { display: flex; gap: 2px; margin-left: auto; }
+.topnav { display: flex; gap: 2px; margin-right: auto; }
 .topnav a {
   font-size: 13px; font-weight: 550; color: var(--muted); text-decoration: none;
   padding: 7px 12px; border-radius: 8px; transition: background var(--dur-fast), color var(--dur-fast);
@@ -396,7 +390,6 @@ a.wl-primary:hover { background: var(--btn-primary-bg); opacity: .88; }
   .topbar-inner { height: 54px; gap: 6px; border-radius: 18px; padding: 0 8px 0 10px; }
   .top-social { border-left: none; padding-left: 0; gap: 0; }
   .soc { width: 32px; height: 32px; }
-  .brand-name { display: none; }
   .hero { padding-top: 28px; }
   .hero-id { gap: 14px; }
   .hero .profile-photo { width: 60px; height: 60px; border-radius: 16px; }
