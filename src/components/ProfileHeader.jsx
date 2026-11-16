@@ -1,4 +1,31 @@
+import { useEffect, useState } from 'react';
 import { Experience } from './Experience';
+import { PROJECTS } from '../data/projects';
+
+const STATS = [
+    { n: PROJECTS.length, label: 'Projects built' },
+    { n: PROJECTS.filter(p => p.live).length, label: 'Live sites' },
+    { n: new Date().getFullYear() - 2024, suffix: '+', label: 'Years shipping' },
+];
+
+/* Counts up from 0 on load. The prerendered HTML holds the final number,
+   so crawlers and no-JS visitors see the real value. */
+function CountUp({ to, suffix = '' }) {
+    const [n, setN] = useState(to);
+    useEffect(() => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        let raf;
+        const start = performance.now() + 250;
+        const tick = now => {
+            const t = Math.min(Math.max((now - start) / 1100, 0), 1);
+            setN(Math.round(to * (1 - Math.pow(1 - t, 3))));
+            if (t < 1) raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+        return () => cancelAnimationFrame(raf);
+    }, [to]);
+    return <>{n}{suffix}</>;
+}
 
 const MailIcon = () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -65,6 +92,15 @@ export function ProfileHeader() {
                     </a>
                     <a href="#work" className="btn">See projects</a>
                 </div>
+
+                <dl className="hero-stats">
+                    {STATS.map(s => (
+                        <div className="hero-stat" key={s.label}>
+                            <dt>{s.label}</dt>
+                            <dd><CountUp to={s.n} suffix={s.suffix} /></dd>
+                        </div>
+                    ))}
+                </dl>
             </div>
 
             <Experience />

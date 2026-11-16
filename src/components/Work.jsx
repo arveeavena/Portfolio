@@ -21,10 +21,32 @@ const LockIcon = () => (
     </svg>
 );
 
+/* Hovering a card plays its screenshots as a slideshow. The extra images
+   only load on the first hover; reduced-motion users keep the still shot. */
+function useHoverCycle(total) {
+    const [hover, setHover] = useState(false);
+    const [warm, setWarm] = useState(false);
+    const [k, setK] = useState(0);
+
+    useEffect(() => {
+        if (!hover || total < 2) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const t = setInterval(() => setK(v => (v + 1) % total), 1400);
+        return () => clearInterval(t);
+    }, [hover, total]);
+
+    const bind = {
+        onMouseEnter: () => { setWarm(true); setK(0); setHover(true); },
+        onMouseLeave: () => { setHover(false); setK(0); },
+    };
+    return { k, warm, bind };
+}
+
 /* A screenshot inside a minimal browser window. Falls back to a monogram
    tile when a project has no screenshot yet, so the grid never has holes. */
-function BrowserFrame({ project, n = 1, eager = false, sizes }) {
+function BrowserFrame({ project, n = 1, eager = false, sizes, cycle }) {
     const url = host(project.live) || `${project.slug}.local`;
+    const extra = cycle && cycle.warm && project.shots > 1;
     return (
         <div className="frame">
             <div className="frame-bar" aria-hidden="true">
@@ -47,6 +69,26 @@ function BrowserFrame({ project, n = 1, eager = false, sizes }) {
                     <div className="frame-empty">
                         <span>{project.name.split(' ').map(w => w[0]).join('').slice(0, 2)}</span>
                     </div>
+                )}
+                {extra && Array.from({ length: project.shots - 1 }, (_, i) => i + 2).map(m => (
+                    <img
+                        key={m}
+                        className={`frame-alt${cycle.k === m - 1 ? ' on' : ''}`}
+                        src={shotSrc(project.slug, m, 720)}
+                        srcSet={`${shotSrc(project.slug, m, 720)} 720w, ${shotSrc(project.slug, m)} 1440w`}
+                        sizes={sizes}
+                        width="1440"
+                        height="900"
+                        decoding="async"
+                        alt=""
+                    />
+                ))}
+                {cycle && project.shots > 1 && (
+                    <span className="frame-pips" aria-hidden="true">
+                        {Array.from({ length: project.shots }, (_, i) => (
+                            <i key={i} className={(cycle.warm ? cycle.k : 0) === i ? 'on' : ''} />
+                        ))}
+                    </span>
                 )}
             </div>
         </div>
@@ -85,8 +127,9 @@ function Status({ project }) {
 }
 
 function Featured({ project, onOpen }) {
+    const cycle = useHoverCycle(project.shots);
     return (
-        <article className="featured" onClick={() => onOpen(project)}>
+        <article className="featured" onClick={() => onOpen(project)} {...cycle.bind}>
             <div className="featured-copy">
                 <div className="featured-kicker">
                     <span className="kicker">Featured</span>
@@ -101,17 +144,18 @@ function Featured({ project, onOpen }) {
                 <Links project={project} big />
             </div>
             <button className="featured-shot" aria-label={`Open ${project.name} screenshots`}>
-                <BrowserFrame project={project} eager sizes="(max-width: 860px) 100vw, 620px" />
+                <BrowserFrame project={project} eager cycle={cycle} sizes="(max-width: 860px) 100vw, 620px" />
             </button>
         </article>
     );
 }
 
 function Card({ project, onOpen, index }) {
+    const cycle = useHoverCycle(project.shots);
     return (
-        <article className="work-card" style={{ '--i': index }} onClick={() => onOpen(project)}>
+        <article className="work-card" style={{ '--i': index }} onClick={() => onOpen(project)} {...cycle.bind}>
             <button className="work-shot" aria-label={`Open ${project.name} screenshots`}>
-                <BrowserFrame project={project} sizes="(max-width: 680px) 100vw, (max-width: 1080px) 50vw, 360px" />
+                <BrowserFrame project={project} cycle={cycle} sizes="(max-width: 680px) 100vw, (max-width: 1080px) 50vw, 360px" />
             </button>
             <div className="work-body">
                 <div className="work-head">

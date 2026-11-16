@@ -4,7 +4,34 @@ import { BRAND, GLYPH, brandColor } from '../lib/brandIcons';
 import { STACK } from '../data/stack';
 
 
-const PREVIEW_COUNT = 4;
+const PREVIEW_COUNT = 2;
+
+// Every tag with a brand logo, split into two rows for the sliding strip.
+const LOGOS = [...new Set(STACK.flatMap(g => g.tags))].filter(t => BRAND[t]);
+const ROWS = [LOGOS.filter((_, i) => i % 2 === 0), LOGOS.filter((_, i) => i % 2 === 1)];
+
+function Marquee() {
+    return (
+        <div className="marquee" aria-hidden="true">
+            {ROWS.map((row, r) => (
+                <div className={`mq-row${r ? ' mq-rev' : ''}`} key={r}>
+                    <div className="mq-track">
+                        {[...row, ...row].map((t, i) => {
+                            const icon = BRAND[t];
+                            const color = brandColor(icon);
+                            return (
+                                <span className="mq-item" key={i} style={color ? { '--brand': color } : null}>
+                                    <svg className="tag-mark" viewBox="0 0 24 24" fill="currentColor"><path d={icon.path} /></svg>
+                                    {t}
+                                </span>
+                            );
+                        })}
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+}
 
 function AnimatedTag({ children, delay }) {
     const icon = BRAND[children];
@@ -56,6 +83,8 @@ export function TechStack() {
                     <h2 id="stack-title" className="block-title">Skills &amp; stack</h2>
                 </div>
             </div>
+
+            <Marquee />
 
             <div className="stack-grid">
             {visible.map((group, gi) => {
